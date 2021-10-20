@@ -7,7 +7,7 @@ class Validation{
         .withMessage('First name is required')
     }
     lastname(){
-        return check('lastName')
+        return check('lastname')
         .not()
         .isEmpty()
         .withMessage('Last name is required')
