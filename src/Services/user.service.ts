@@ -2,10 +2,10 @@ import { PrismaClient,Prisma } from "@prisma/client";
 import { passwordHash } from "./../Helpers/user.helper";
 import { userResponseMessages } from "../HttpHandlers/responseMessages";
 import { checkIfEmailExists } from "../Helpers/user.helper";
-import { IServiceReturn, IUserRegistrtaton } from "./../Interfaces/user.interface";
+import { IUserRegistrationServiceReturn, IUserRegistrtaton } from "./../Interfaces/user.interface";
 import { StatusCodes } from "../HttpHandlers/statusCodes";
 import HttpException from "../HttpHandlers/httpException";
-export const userRegisterService = async (user: IUserRegistrtaton): Promise<IServiceReturn> => {
+export const userRegisterService = async (user: IUserRegistrtaton): Promise<IUserRegistrationServiceReturn> => {
     const { firstname, lastname, email, password } = user;
     if (await checkIfEmailExists(email)) {
         return {

@@ -21,3 +21,4 @@ export const passwordHash = (password: string):string => {
     const salt:string = genSaltSync(10)
     return hashSync(password, salt)
 }
+
