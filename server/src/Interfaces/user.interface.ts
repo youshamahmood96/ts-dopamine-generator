@@ -1,3 +1,16 @@
+export interface IUserModel{
+    id:number;
+    uuid:string;
+    email:string;
+    firstname:string;
+    lastname:string;
+    password:string;
+    nickname?:string;
+    dob?:Date;
+    bio?:string;
+    createdAt:Date;
+    updatedAt:Date;
+}
 export interface IUserRegistrtaton{
     firstname:string;
     lastname:string;
@@ -22,6 +35,9 @@ export interface IUserResponseMessage{
     unAuthorizedUser:string;
     getSuccessMessage:string;
     genericFailureMessage:string;
+    userNotFoundDuringLogin:string;
+    loginSuccess:string;
+    passwordError:string;
 }
 export interface IUserResponseObject{
     status:number;
@@ -30,4 +46,13 @@ export interface IUserResponseObject{
     error?:object;
     accessToken?:string;
 }
-
+export interface IUserLogin{
+    email:string;
+    password:string;
+}
+export interface IUserLoginServiceReturn{
+    statusCode:number;
+    message:string;
+    data:object;
+    accessToken?:string;
+}

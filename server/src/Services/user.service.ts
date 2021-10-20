@@ -2,9 +2,10 @@ import { PrismaClient,Prisma } from "@prisma/client";
 import { passwordHash, tokenGenerator } from "./../Helpers/user.helper";
 import { userResponseMessages } from "../HttpHandlers/responseMessages";
 import { checkIfEmailExists } from "../Helpers/user.helper";
-import {  IUserRegistrationServiceReturn, IUserRegistrtaton } from "./../Interfaces/user.interface";
+import {  IUserLogin, IUserLoginServiceReturn, IUserRegistrationServiceReturn, IUserRegistrtaton } from "./../Interfaces/user.interface";
 import { StatusCodes } from "../HttpHandlers/statusCodes";
 import HttpException from "../HttpHandlers/httpException";
+import { compareSync } from "bcrypt";
 
 const { user: UserModel } = new PrismaClient();
 const userPrismaSelector = {
@@ -68,4 +69,35 @@ export const userGetAllService = async () => {
         data:{}
        }
    }
+}
+export const userLoginService = async(user:IUserLogin): Promise<IUserLoginServiceReturn> => {
+    const {email,password} = user
+    const existingUser = await UserModel.findUnique({
+        where:{email}
+    })
+    if(!existingUser) {
+        return {
+            statusCode: StatusCodes.NOT_FOUND,
+            message: userResponseMessages.userNotFoundDuringLogin,
+            data:{}
+        }
+    }
+    if(compareSync(password,existingUser.password)){
+        existingUser.password = 'randomString'
+        const accessToken = tokenGenerator(existingUser)
+        return{
+            statusCode: StatusCodes.CREATED,
+            message: userResponseMessages.loginSuccess,
+            data:existingUser,
+            accessToken
+        }
+    }
+    else{
+        return {
+            statusCode: StatusCodes.NOT_FOUND,
+            message: userResponseMessages.passwordError,
+            data:{}
+        }
+    }
+    
 }

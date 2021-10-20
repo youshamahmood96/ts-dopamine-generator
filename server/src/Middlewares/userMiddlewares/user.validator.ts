@@ -32,3 +32,7 @@ export const userSignupValidator = [
     validator.email(),
     validator.password()
 ]
+export const userLoginValidator = [
+    validator.email(),
+    validator.password()
+]

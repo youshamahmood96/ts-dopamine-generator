@@ -6,5 +6,8 @@ export const userResponseMessages:IUserResponseMessage = {
     errorInValidation:"Some fields have failed passing the validation middleware.Please check the errors key",
     unAuthorizedUser:"Invalid Token.Access Denied",
     getSuccessMessage:"Users fetched successfully",
-    genericFailureMessage:"Sorry, something went wrong"
+    genericFailureMessage:"Sorry, something went wrong",
+    userNotFoundDuringLogin:"User doesnt exist under this email",
+    loginSuccess:"User logged in successfully",
+    passwordError:"Password doesnt match"
 }

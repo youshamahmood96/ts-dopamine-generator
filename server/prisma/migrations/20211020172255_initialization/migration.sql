@@ -8,7 +8,7 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "firstname" VARCHAR(255) NOT NULL,
     "lastname" VARCHAR(255) NOT NULL,
-    "password" CHAR(150) NOT NULL,
+    "password" TEXT NOT NULL,
     "nickname" VARCHAR(255),
     "dob" DATE,
     "bio" VARCHAR(255),

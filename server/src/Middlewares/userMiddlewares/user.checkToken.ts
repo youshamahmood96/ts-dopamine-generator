@@ -1,5 +1,5 @@
-import { IUserResponseObject } from './../../Interfaces/user.interface';
-import { StatusCodes } from './../../HttpHandlers/statusCodes';
+import { IUserResponseObject } from '../../Interfaces/user.interface';
+import { StatusCodes } from '../../HttpHandlers/statusCodes';
 import { NextFunction, Request, Response } from "express";
 import * as jwt from 'jsonwebtoken'
 import { userResponseMessages } from '../../HttpHandlers/responseMessages';
