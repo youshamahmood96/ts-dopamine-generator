@@ -1,46 +1,32 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+// import { PrismaClient } from '@prisma/client'
+// const prisma = new PrismaClient()
 
-async function main() {
-    await prisma.user.create({
-        data: {
-            email: "prisma@prisma.com",
-            firstname: "John",
-            lastname: "Doe",
-            password: "123456",
-        },
-    });
-    const allUsers = await prisma.user.findMany({
-        include: {
-            posts: true,
-        },
-    });
-    console.dir(allUsers, { depth: null });
-}
+import * as dotenv from 'dotenv';
+import path from 'path';
+import init from './init';
 
-main()
-    .catch((e) => {
-        throw e;
-    })
-    .finally(async () => {
-        await prisma.$disconnect();
-    });
+dotenv.config({
+    path:path.resolve(__dirname, '../.env')
+})
 
-//   await prisma.user.create({
-//     data:{
-//         email: 'prisma@prisma.com',
-//         firstname:'John',
-//         lastname:'Smith',
-//         password: '12345',
-//         nickname:'John',
-//         dob:new Date(12,2000),
-//         bio:'dsd'
-//     }
-// })
+init()
 
-//    const allUsers = await prisma.user.findMany({
-//      include: {
-//        posts: true
-//      },
-//    })
-//    console.dir(allUsers, { depth: null })
+
+// async function main() {
+//        const allUsers = await prisma.user.findMany({
+//          include: {
+//            posts: true
+//          },
+//        })
+//        console.dir(allUsers, { depth: null })
+// }
+
+// main()
+//     .catch((e) => {
+//         throw e;
+//     })
+//     .finally(async () => {
+//         await prisma.$disconnect();
+//     });
+
+
