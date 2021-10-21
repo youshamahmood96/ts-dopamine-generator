@@ -15,5 +15,7 @@ export const userResponseMessages:IUserResponseMessage = {
     updatedUser:"User Updated Successfully",
 }
 export const postResponseMessages:IPostResponseMessage = {
-    postCreated:"Post created successfully"
+    postCreated:"Post created successfully",
+    getSuccessMessage:"Posts fetched successfully",
+    postDeletedMessage:"Post deleted successfully",
 }

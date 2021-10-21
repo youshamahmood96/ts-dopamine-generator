@@ -4,4 +4,6 @@ export interface IPostCreate{
 }
 export interface IPostResponseMessage{
     postCreated: string;
+    getSuccessMessage:string;
+    postDeletedMessage:string;
 }
