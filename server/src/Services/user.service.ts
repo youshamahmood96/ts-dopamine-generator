@@ -2,7 +2,7 @@ import { PrismaClient,Prisma } from "@prisma/client";
 import { passwordHash, tokenGenerator } from "./../Helpers/user.helper";
 import { userResponseMessages } from "../HttpHandlers/responseMessages";
 import { checkIfEmailExists } from "../Helpers/user.helper";
-import {  IUserLogin, IUserLoginServiceReturn, IUserRegistrationServiceReturn, IUserRegistrtaton } from "./../Interfaces/user.interface";
+import {  IUserLogin, IUserLoginServiceReturn, IGenericServiceReturnWithAccessToken, IUserRegistrtaton } from "./../Interfaces/user.interface";
 import { StatusCodes } from "../HttpHandlers/statusCodes";
 import HttpException from "../HttpHandlers/httpException";
 import { compareSync } from "bcrypt";
@@ -18,7 +18,7 @@ const userPrismaSelector = {
 }
 const userInfoWithoutPassword = Prisma.validator<Prisma.UserSelect>()(userPrismaSelector)
 
-export const userRegisterService = async (user: IUserRegistrtaton): Promise<IUserRegistrationServiceReturn> => {
+export const userRegisterService = async (user: IUserRegistrtaton): Promise<IGenericServiceReturnWithAccessToken> => {
     const { firstname, lastname, email, password } = user;
     if (await checkIfEmailExists(email)) {
         return {
@@ -83,7 +83,7 @@ export const userLoginService = async(user:IUserLogin): Promise<IUserLoginServic
         }
     }
     if(compareSync(password,existingUser.password)){
-        existingUser.password = 'randomString'
+        existingUser.password = ''
         const accessToken = tokenGenerator(existingUser)
         return{
             statusCode: StatusCodes.CREATED,

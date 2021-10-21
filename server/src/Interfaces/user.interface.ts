@@ -1,32 +1,20 @@
-export interface IUserModel{
-    id:number;
-    uuid:string;
-    email:string;
-    firstname:string;
-    lastname:string;
-    password:string;
-    nickname?:string;
-    dob?:Date;
-    bio?:string;
-    createdAt:Date;
-    updatedAt:Date;
-}
 export interface IUserRegistrtaton{
     firstname:string;
     lastname:string;
     email:string;
     password:string;
 }
-export interface IUserRegistrationServiceReturn{
+
+export interface IGenericServiceReturn{
     statusCode:number;
     message:string;
-    data:object;
+    data?:object;
+}
+export interface IGenericServiceReturnWithAccessToken extends IGenericServiceReturn{
     accessToken?:string;
 }
-export interface IUserGetAllServiceReturn{
-    statusCode:number;
-    message:string;
-    data:object;
+export interface IGenericResponseObjectWithError extends IGenericServiceReturnWithAccessToken{
+    error?:object;
 }
 export interface IUserResponseMessage{
     duplicateEmail:string;
@@ -39,13 +27,7 @@ export interface IUserResponseMessage{
     loginSuccess:string;
     passwordError:string;
 }
-export interface IUserResponseObject{
-    status:number;
-    message:string;
-    data?:object;
-    error?:object;
-    accessToken?:string;
-}
+
 export interface IUserLogin{
     email:string;
     password:string;
