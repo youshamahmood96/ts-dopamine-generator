@@ -2,29 +2,30 @@ import { PrismaClient,Prisma } from "@prisma/client";
 import { passwordHash, tokenGenerator } from "./../Helpers/user.helper";
 import { userResponseMessages } from "../HttpHandlers/responseMessages";
 import { checkIfEmailExists } from "../Helpers/user.helper";
-import {  IUserLogin, IUserLoginServiceReturn, IGenericServiceReturnWithAccessToken, IUserRegistrtaton } from "./../Interfaces/user.interface";
+import {  IUserLogin, IGenericServiceReturn, IUserRegistrtaton } from "./../Interfaces/user.interface";
 import { StatusCodes } from "../HttpHandlers/statusCodes";
 import HttpException from "../HttpHandlers/httpException";
 import { compareSync } from "bcrypt";
 
 const { user: UserModel } = new PrismaClient();
-const userPrismaSelector = {
+const userPrismaSelectorWithoutPassword = {
     id: true,
+    uuid: true,
     email: true,
     firstname: true,
     lastname: true,
     createdAt: true,
     updatedAt: true,
 }
-const userInfoWithoutPassword = Prisma.validator<Prisma.UserSelect>()(userPrismaSelector)
 
-export const userRegisterService = async (user: IUserRegistrtaton): Promise<IGenericServiceReturnWithAccessToken> => {
+const userInfoWithoutPassword = Prisma.validator<Prisma.UserSelect>()(userPrismaSelectorWithoutPassword)
+
+export const userRegisterService = async (user: IUserRegistrtaton): Promise<IGenericServiceReturn> => {
     const { firstname, lastname, email, password } = user;
     if (await checkIfEmailExists(email)) {
         return {
             statusCode: StatusCodes.BAD_REQUEST,
             message: userResponseMessages.duplicateEmail,
-            data:{}
         }
     } else {
       try {
@@ -63,23 +64,24 @@ export const userGetAllService = async () => {
         data:allUsers
        }
    } catch (error) {
-    return{
-        statusCode: StatusCodes.BAD_REQUEST,
-        message: userResponseMessages.genericFailureMessage,
-        data:{}
-       }
+    throw new HttpException(StatusCodes.INTERNAL_SERVER);
    }
 }
-export const userLoginService = async(user:IUserLogin): Promise<IUserLoginServiceReturn> => {
+export const userLoginService = async(user:IUserLogin): Promise<IGenericServiceReturn> => {
     const {email,password} = user
-    const existingUser = await UserModel.findUnique({
-        where:{email}
-    })
+    let existingUser;
+    try{
+        existingUser = await UserModel.findUnique({
+            where:{email}
+        })
+    }
+    catch(error){
+        throw new HttpException(StatusCodes.INTERNAL_SERVER);
+    }
     if(!existingUser) {
         return {
             statusCode: StatusCodes.NOT_FOUND,
             message: userResponseMessages.userNotFoundDuringLogin,
-            data:{}
         }
     }
     if(compareSync(password,existingUser.password)){
@@ -96,8 +98,21 @@ export const userLoginService = async(user:IUserLogin): Promise<IUserLoginServic
         return {
             statusCode: StatusCodes.NOT_FOUND,
             message: userResponseMessages.passwordError,
-            data:{}
         }
     }
     
+}
+export const userDeleteService = async(uuid:string):Promise<IGenericServiceReturn> => {
+    try{
+        await UserModel.delete({
+            where:{uuid}
+        })
+        return{
+            statusCode: StatusCodes.OK,
+            message: userResponseMessages.deletedUser,
+        }
+    }
+    catch(error){
+        throw new HttpException(StatusCodes.INTERNAL_SERVER);
+    }
 }

@@ -1,10 +1,10 @@
-import { IGenericResponseObjectWithError } from '../../Interfaces/user.interface';
+import { IGenericServiceReturn } from '../../Interfaces/user.interface';
 import { StatusCodes } from '../../HttpHandlers/statusCodes';
 import { NextFunction, Request, Response } from "express";
 import * as jwt from 'jsonwebtoken'
 import { userResponseMessages } from '../../HttpHandlers/responseMessages';
 export const checkToken = async (req: Request, res: Response, next: NextFunction) => {
-    const invalidResponse:IGenericResponseObjectWithError = {
+    const invalidResponse:IGenericServiceReturn = {
         statusCode:StatusCodes.UNAUTHORIZED,
         message:userResponseMessages.unAuthorizedUser
     }

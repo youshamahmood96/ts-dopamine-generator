@@ -9,13 +9,10 @@ export interface IGenericServiceReturn{
     statusCode:number;
     message:string;
     data?:object;
-}
-export interface IGenericServiceReturnWithAccessToken extends IGenericServiceReturn{
     accessToken?:string;
-}
-export interface IGenericResponseObjectWithError extends IGenericServiceReturnWithAccessToken{
     error?:object;
 }
+
 export interface IUserResponseMessage{
     duplicateEmail:string;
     userCreationSuccess:string;
@@ -26,15 +23,10 @@ export interface IUserResponseMessage{
     userNotFoundDuringLogin:string;
     loginSuccess:string;
     passwordError:string;
+    deletedUser:string;
 }
 
 export interface IUserLogin{
     email:string;
     password:string;
-}
-export interface IUserLoginServiceReturn{
-    statusCode:number;
-    message:string;
-    data:object;
-    accessToken?:string;
 }
