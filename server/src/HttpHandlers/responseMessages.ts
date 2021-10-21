@@ -10,5 +10,6 @@ export const userResponseMessages:IUserResponseMessage = {
     userNotFoundDuringLogin:"User doesnt exist under this email",
     loginSuccess:"User logged in successfully",
     passwordError:"Password doesnt match",
-    deletedUser:"User Deleted Successfully"
+    deletedUser:"User Deleted Successfully",
+    updatedUser:"User Updated Successfully"
 }

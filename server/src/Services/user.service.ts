@@ -2,7 +2,7 @@ import { PrismaClient,Prisma } from "@prisma/client";
 import { passwordHash, tokenGenerator } from "./../Helpers/user.helper";
 import { userResponseMessages } from "../HttpHandlers/responseMessages";
 import { checkIfEmailExists } from "../Helpers/user.helper";
-import {  IUserLogin, IGenericServiceReturn, IUserRegistrtaton } from "./../Interfaces/user.interface";
+import {  IUserLogin, IGenericServiceReturn, IUserRegistrtaton, IUserUpdateModel } from "./../Interfaces/user.interface";
 import { StatusCodes } from "../HttpHandlers/statusCodes";
 import HttpException from "../HttpHandlers/httpException";
 import { compareSync } from "bcrypt";
@@ -14,6 +14,9 @@ const userPrismaSelectorWithoutPassword = {
     email: true,
     firstname: true,
     lastname: true,
+    nickname: true,
+    dob: true,
+    bio: true,
     createdAt: true,
     updatedAt: true,
 }
@@ -113,6 +116,29 @@ export const userDeleteService = async(uuid:string):Promise<IGenericServiceRetur
         }
     }
     catch(error){
+        throw new HttpException(StatusCodes.INTERNAL_SERVER);
+    }
+}
+export const userUpdateService = async(body:IUserUpdateModel,uuid:string):Promise<IGenericServiceReturn> => {
+    const {firstname,lastname,nickname,dob,bio} = body
+    try {
+        await UserModel.update({
+            where:{
+                uuid
+            },
+            data:{
+                firstname,
+                lastname,
+                nickname,
+                dob,
+                bio
+            }
+        })
+        return{
+            statusCode: StatusCodes.OK,
+            message: userResponseMessages.updatedUser,
+        }
+    } catch(error){
         throw new HttpException(StatusCodes.INTERNAL_SERVER);
     }
 }

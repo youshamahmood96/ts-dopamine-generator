@@ -4,6 +4,13 @@ export interface IUserRegistrtaton{
     email:string;
     password:string;
 }
+export interface IUserUpdateModel{
+    firstname?:string;
+    lastname?:string;
+    nickname?:string;
+    dob?:Date;
+    bio?:string;
+}
 
 export interface IGenericServiceReturn{
     statusCode:number;
@@ -24,6 +31,7 @@ export interface IUserResponseMessage{
     loginSuccess:string;
     passwordError:string;
     deletedUser:string;
+    updatedUser:string;
 }
 
 export interface IUserLogin{
