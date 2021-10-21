@@ -1,3 +1,4 @@
+import { IPostResponseMessage } from "../Interfaces/post.interface";
 import { IUserResponseMessage } from "../Interfaces/user.interface";
 
 export const userResponseMessages:IUserResponseMessage = {
@@ -11,5 +12,8 @@ export const userResponseMessages:IUserResponseMessage = {
     loginSuccess:"User logged in successfully",
     passwordError:"Password doesnt match",
     deletedUser:"User Deleted Successfully",
-    updatedUser:"User Updated Successfully"
+    updatedUser:"User Updated Successfully",
+}
+export const postResponseMessages:IPostResponseMessage = {
+    postCreated:"Post created successfully"
 }
