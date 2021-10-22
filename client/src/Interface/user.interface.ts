@@ -4,6 +4,7 @@ export interface IUserModel {
     id:number
     uuid:string
     email:string
+    password?:string
     firstname:string
     lastname:string
     nickname?:string
