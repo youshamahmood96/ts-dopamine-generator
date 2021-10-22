@@ -1,12 +1,9 @@
-import * as dotenv from 'dotenv';
-import path from 'path';
-import init from './init';
+import * as dotenv from "dotenv";
+import path from "path";
+import init from "./init";
 
 dotenv.config({
-    path:path.resolve(__dirname, '../.env')
-})
+    path: path.resolve(__dirname, "../.env"),
+});
 
-init()
-
-
-
+init();

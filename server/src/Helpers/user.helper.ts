@@ -22,6 +22,6 @@ export const passwordHash = (password: string): string => {
     return hashSync(password, salt);
 };
 export const tokenGenerator = (token: object): string => {
-    const secret: string = process.env.JWT_SECRET as string
+    const secret: string = process.env.JWT_SECRET as string;
     return sign({ token }, secret, { expiresIn: "1h" });
 };
