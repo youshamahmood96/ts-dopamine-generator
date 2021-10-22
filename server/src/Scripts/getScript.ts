@@ -5,6 +5,7 @@ async function main() {
         include: {
             posts: true,
             followedBy: true,
+            following: true,
         },
     });
     console.dir(allUsers, { depth: null });
