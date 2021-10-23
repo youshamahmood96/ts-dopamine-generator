@@ -8,3 +8,9 @@ export const registerUser = (user:IUserModel):IUserAction => {
         payload:user
     }
 }
+export const loginUser = (user:IUserModel):IUserAction => {
+    return {
+        type:userActiontypes.LOGIN_USER,
+        payload:user
+    }
+}

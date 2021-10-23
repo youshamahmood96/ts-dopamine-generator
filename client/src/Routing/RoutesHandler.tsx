@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NewsFeed from "../Components/NewsFeed/NewsFeed";
+import UserLogin from "../Components/UserLogin/UserLogin";
 import UserRegistration from "../Components/UserRegistration/UserRegistration";
 
 function RoutesHandler() {
@@ -8,6 +9,7 @@ function RoutesHandler() {
             <Switch>
                 <Route exact path ='/' component = {NewsFeed} />
                 <Route exact path ='/register' component = {UserRegistration} />
+                <Route exact path ='/login' component = {UserLogin} />
             </Switch>
         </Router>
     )

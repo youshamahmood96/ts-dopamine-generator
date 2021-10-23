@@ -2,35 +2,41 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import validationSchema from './validationSchema';
 import './UserRegistration.css'
-
+import { useMutation } from 'react-query';
+import { userRegistrationApiCall } from '../../Api/userApiCalls';
+import { IUserRegister, IRegistrationInput } from '../../Interface/user.interface';
+import {Link} from 'react-router-dom'
 function UserRegistration() {
-    type Inputs = {
-        firstname: string,
-        lastname: string,
-        email: string,
-        password: string,
-        confirmPassword: string,
-    }
-    const onSubmit: SubmitHandler<Inputs> = data => {
-        console.log(JSON.stringify(data, null, 2));
+    const mutation = useMutation((user:IUserRegister) => {
+        return userRegistrationApiCall(user)
+    })
+    const onSubmit: SubmitHandler<IRegistrationInput> = data => {
+       const {firstname,lastname,email,password} = data
+       mutation.mutate({
+           firstname,
+           lastname,
+           email,
+           password
+       })
     };
     const {
         register,
         handleSubmit,
         formState: { errors }
-    } = useForm<Inputs>({
+    } = useForm<IRegistrationInput>({
         resolver: yupResolver(validationSchema)
     });
     return (
-        <div className="register-form">
+        <div>
             <div className="container">
                 <div className="row">
-                    <div className="col-2">
+                    <div className="col-sm-2">
                     </div>
-                    <div className="col-8">
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="col-sm-8">
+                        <h1 className="m-4" >Welcome !</h1>
+                    <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">
-                    <label>Full Name</label>
+                    <label>First Name</label>
                     <input
                         type="text"
                         {...register('firstname')}
@@ -40,7 +46,7 @@ function UserRegistration() {
                 </div>
 
                 <div className="form-group">
-                    <label>Username</label>
+                    <label>Last Name</label>
                     <input
                         type="text"
                         {...register('lastname')}
@@ -88,9 +94,10 @@ function UserRegistration() {
                         Register
                     </button>
                 </div>
+                <p>Already a User? <Link to="/login" >Login</Link> </p>
             </form>
                     </div>
-                    <div className="col-2">
+                    <div className="col-sm-2">
                         
                     </div>
                 </div>

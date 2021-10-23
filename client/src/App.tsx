@@ -1,9 +1,14 @@
 import RoutesHandler from "./Routing/RoutesHandler";
 
-function App() {
+import { QueryClient, QueryClientProvider } from 'react-query'
 
+
+const queryClient: QueryClient = new QueryClient()
+function App() {    
   return (
-    <RoutesHandler/>
+  <QueryClientProvider client={queryClient}>
+    <RoutesHandler />
+  </QueryClientProvider>
   )
 }
 
