@@ -9,11 +9,14 @@ import {IGenericResponseObject} from '../../Interface/user.interface'
 import { userLoginApiCall } from "../../Api/userApiCalls";
 import { IUserLogin } from "../../Interface/user.interface";
 import validationSchema from "./validationSchema";
-import {authenticate} from '../../Helpers/userAuthHelper'
+import {authenticate, isAuth} from '../../Helpers/userAuthHelper'
 import { loginUser } from "../../Redux/Actions/userActions";
 
 function UserLogin() {
     const history = useHistory()
+    if(isAuth()){
+        history.push('/')
+    }
     const dispatch = useDispatch()
     const mutation = useMutation((user: IUserLogin) => {
         return userLoginApiCall(user)

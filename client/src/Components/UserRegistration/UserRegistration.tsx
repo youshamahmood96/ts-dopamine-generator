@@ -1,12 +1,18 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useMutation } from 'react-query';
+import {Link,useHistory} from 'react-router-dom'
+
 import validationSchema from './validationSchema';
 import './UserRegistration.css'
-import { useMutation } from 'react-query';
 import { userRegistrationApiCall } from '../../Api/userApiCalls';
 import { IUserRegister, IRegistrationInput } from '../../Interface/user.interface';
-import {Link} from 'react-router-dom'
+import { isAuth } from '../../Helpers/userAuthHelper';
 function UserRegistration() {
+    const history = useHistory()
+    if(isAuth()){
+        history.push('/')
+    }
     const mutation = useMutation((user:IUserRegister) => {
         return userRegistrationApiCall(user)
     })
