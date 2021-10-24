@@ -89,7 +89,7 @@ export const updatePostService = async (uuid: string, post: IPostCreate): Promis
     }
 };
 
-export const getAllPostsService = async (uuid:string) => {
+export const getAllPostsService = async (uuid:string,id:number):Promise<IGenericServiceReturn> => {
     try {
         const userFollowing = await UserModel.findUnique({
             where:{
@@ -97,23 +97,40 @@ export const getAllPostsService = async (uuid:string) => {
             },
             select:following
         })
-        let followingUuIdArray:Array<number> = [];
+        let followerIdArray:Array<number> = [];
         userFollowing?.following.forEach(({id}) => {
-            followingUuIdArray.push(id)
+            followerIdArray.push(id)
         })
-        let postArray:Array<IGenericServiceReturn> = []
-        const call = async() => {
-            for(let i=0;i<followingUuIdArray.length; i++){
-                postArray.push(await getAllPostsOfSingleUserService(followingUuIdArray[i]))
+        let postArray:Array<object> = []
+        const selfPostsCall = async() => {
+            const post = await PostModel.findMany({
+                where:{
+                    userId:id
+                }
+            })
+            postArray.push(await post)
+            return await postArray
+        }
+        const followingPostsCall = async() => {
+            for(let i=0;i<followerIdArray.length; i++){
+                const posts = await PostModel.findMany({
+                    where: {
+                        userId:followerIdArray[i]
+                    },
+                });
+                postArray.push(await posts)
                 return await postArray
             }
         }
-        call().then(data=>{
-            return data
-        })
-        
+        await selfPostsCall()
+        await followingPostsCall()
+        return {
+            statusCode: StatusCodes.OK,
+            message: postResponseMessages.getSuccessMessage,
+            data:postArray
+        };
     } catch (error) {
-        
+        throw new HttpException(StatusCodes.INTERNAL_SERVER);
     }
 }
 
