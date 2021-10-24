@@ -3,6 +3,7 @@ import { IGenericServiceReturn } from "../Interfaces/user.interface";
 import {
     deleteOnePostService,
     getAllPostsOfSingleUserService,
+    getAllPostsService,
     postCreateService,
     updatePostService,
 } from "../Services/post.service";
@@ -47,3 +48,9 @@ export const updatePostController = async (req: Request, res: Response): Promise
     };
     return res.status(serviceReturn.statusCode).json(responseObject);
 };
+export const getAllPostsController = async (req: Request, res: Response) => {
+    const serviceReturn = await getAllPostsService(req.params.uuid);
+    console.log(serviceReturn);
+    
+};
+

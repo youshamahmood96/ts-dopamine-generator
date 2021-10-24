@@ -33,7 +33,6 @@ function UserRegistration() {
         resolver: yupResolver(validationSchema)
     });
     return (
-        <div>
             <div className="container">
                 <div className="row">
                     <div className="col-sm-2">
@@ -108,8 +107,6 @@ function UserRegistration() {
                     </div>
                 </div>
             </div>
-            
-        </div>
     )
 }
 

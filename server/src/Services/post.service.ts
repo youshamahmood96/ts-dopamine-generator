@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma,PrismaClient } from "@prisma/client";
 import HttpException from "../HttpHandlers/httpException";
 import { postResponseMessages } from "../HttpHandlers/responseMessages";
 import { StatusCodes } from "../HttpHandlers/statusCodes";
@@ -8,6 +8,15 @@ import { IGenericServiceReturn } from "../Interfaces/user.interface";
 const { user: UserModel } = new PrismaClient();
 
 const { post: PostModel } = new PrismaClient();
+
+const following = Prisma.validator<Prisma.UserSelect>()({
+    following:{
+        select:{
+            id:true
+        }
+    }
+});
+
 export const postCreateService = async (uuid: string, post: IPostCreate): Promise<IGenericServiceReturn> => {
     const { title, body } = post;
     try {
@@ -79,3 +88,32 @@ export const updatePostService = async (uuid: string, post: IPostCreate): Promis
         throw new HttpException(StatusCodes.INTERNAL_SERVER);
     }
 };
+
+export const getAllPostsService = async (uuid:string) => {
+    try {
+        const userFollowing = await UserModel.findUnique({
+            where:{
+                uuid
+            },
+            select:following
+        })
+        let followingUuIdArray:Array<number> = [];
+        userFollowing?.following.forEach(({id}) => {
+            followingUuIdArray.push(id)
+        })
+        let postArray:Array<IGenericServiceReturn> = []
+        const call = async() => {
+            for(let i=0;i<followingUuIdArray.length; i++){
+                postArray.push(await getAllPostsOfSingleUserService(followingUuIdArray[i]))
+                return await postArray
+            }
+        }
+        call().then(data=>{
+            return data
+        })
+        
+    } catch (error) {
+        
+    }
+}
+
