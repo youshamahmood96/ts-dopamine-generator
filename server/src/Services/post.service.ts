@@ -89,8 +89,12 @@ export const updatePostService = async (uuid: string, post: IPostCreate): Promis
     }
 };
 
-export const getAllPostsService = async (uuid:string,id:number):Promise<IGenericServiceReturn> => {
+export const getAllPostsService = async (params:string):Promise<IGenericServiceReturn> => {
+    const paramsArray = params.split(" ")
+    const id:number = parseInt(paramsArray[0])
+    const uuid:string = paramsArray[1]
     try {
+        // 1
         const userFollowing = await UserModel.findUnique({
             where:{
                 uuid
@@ -102,15 +106,17 @@ export const getAllPostsService = async (uuid:string,id:number):Promise<IGeneric
             followerIdArray.push(id)
         })
         let postArray:Array<object> = []
+        // 2
         const selfPostsCall = async() => {
+            console.log(id);
             const post = await PostModel.findMany({
                 where:{
                     userId:id
                 }
             })
             postArray.push(await post)
-            return await postArray
         }
+        
         const followingPostsCall = async() => {
             for(let i=0;i<followerIdArray.length; i++){
                 const posts = await PostModel.findMany({
@@ -118,12 +124,16 @@ export const getAllPostsService = async (uuid:string,id:number):Promise<IGeneric
                         userId:followerIdArray[i]
                     },
                 });
+                console.log(posts);
+                
                 postArray.push(await posts)
-                return await postArray
             }
         }
         await selfPostsCall()
+        console.log(postArray);
+
         await followingPostsCall()
+        
         return {
             statusCode: StatusCodes.OK,
             message: postResponseMessages.getSuccessMessage,

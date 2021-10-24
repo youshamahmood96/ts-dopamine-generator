@@ -49,7 +49,7 @@ export const updatePostController = async (req: Request, res: Response): Promise
     return res.status(serviceReturn.statusCode).json(responseObject);
 };
 export const getAllPostsController = async (req: Request, res: Response): Promise<Response> => {
-    const serviceReturn:IGenericServiceReturn = await getAllPostsService(req.params.uuid,req.body.id);
+    const serviceReturn:IGenericServiceReturn = await getAllPostsService(req.params.uuid);
     const responseObject: IGenericServiceReturn = {
         statusCode: serviceReturn.statusCode,
         message: serviceReturn.message,

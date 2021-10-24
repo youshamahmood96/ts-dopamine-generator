@@ -20,3 +20,13 @@ export const userLoginApiCall = async(user: IUserLogin) => {
     })
     return response
 }
+export const getAllPosts = async(id:number,uuid:string,token:string) => {
+    const response = await axios({
+        method: 'GET',
+        url:`${url}/api/v1/post/all/${id} ${uuid}`,
+        headers:{
+            Authorization: `Bearer ${token}`
+        }
+    })
+    return response
+}
