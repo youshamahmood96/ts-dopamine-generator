@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
     userDeleteController,
     userGetAllController,
+    userGetSingleController,
     userLoginController,
     userRegisterController,
     userUpdateController,
@@ -18,6 +19,7 @@ const routing = async () => {
     await userRouter.post("/user/login", userLoginValidator, runValidation, userLoginController);
     await userRouter.delete("/user/delete/:uuid", checkToken, userDeleteController);
     await userRouter.patch("/user/update/:uuid", checkToken, userUpdateController);
+    await userRouter.get("/user/getSingleUser/:userId",checkToken, userGetSingleController);
 };
 
 routing();

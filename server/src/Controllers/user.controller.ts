@@ -3,6 +3,7 @@ import { IGenericServiceReturn } from "../Interfaces/user.interface";
 import {
     userDeleteService,
     userGetAllService,
+    userGetSingleService,
     userLoginService,
     userRegisterService,
     userUpdateService,
@@ -52,3 +53,14 @@ export const userUpdateController = async (req: Request, res: Response): Promise
     };
     return res.status(serviceReturn.statusCode).json(responseObject);
 };
+export const userGetSingleController = async (req: Request, res: Response): Promise<Response> => {
+    const serviceReturn: IGenericServiceReturn = await userGetSingleService(parseInt(req.params.userId));
+    const responseObject: IGenericServiceReturn = {
+        statusCode: serviceReturn.statusCode,
+        message: serviceReturn.message,
+        data: serviceReturn.data,
+    };
+    return res.status(serviceReturn.statusCode).json(responseObject);
+};
+
+

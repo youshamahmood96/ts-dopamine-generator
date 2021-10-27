@@ -137,3 +137,28 @@ export const userUpdateService = async (body: IUserUpdateModel, uuid: string): P
         throw new HttpException(StatusCodes.INTERNAL_SERVER);
     }
 };
+export const userGetSingleService = async (id:number): Promise<IGenericServiceReturn> => {
+    try {
+        const user = await UserModel.findUnique({
+            where:{
+                id
+            },
+            select: userInfoWithoutPassword,
+        })
+        if(user){
+            return {
+                statusCode: StatusCodes.OK,
+                message: userResponseMessages.getSuccessMessage,
+                data: user,
+            };
+        }
+        else{
+            return {
+                statusCode: StatusCodes.NOT_FOUND,
+                message: userResponseMessages.userNotFoundDuringLogin,
+            };
+        }
+    } catch (error) {
+        throw new HttpException(StatusCodes.INTERNAL_SERVER);
+    }
+}
