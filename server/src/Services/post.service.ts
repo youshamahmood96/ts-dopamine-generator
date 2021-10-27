@@ -108,7 +108,6 @@ export const getAllPostsService = async (params:string):Promise<IGenericServiceR
         let postArray:Array<object> = []
         // 2
         const selfPostsCall = async() => {
-            console.log(id);
             const post = await PostModel.findMany({
                 where:{
                     userId:id
@@ -124,14 +123,11 @@ export const getAllPostsService = async (params:string):Promise<IGenericServiceR
                         userId:followerIdArray[i]
                     },
                 });
-                console.log(posts);
                 
                 postArray.push(await posts)
             }
         }
         await selfPostsCall()
-        console.log(postArray);
-
         await followingPostsCall()
         
         return {
