@@ -1,4 +1,4 @@
-import React from 'react'
+import { Link } from 'react-router-dom'
 import './NavigationBar.css'
 function NavigationBar() {
     return (
@@ -8,12 +8,17 @@ function NavigationBar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
           <a className="navbar-brand" href="/">dopamine-generator</a>
-          <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-          </ul>
-          <form className="form-inline my-2 my-lg-0">
-            <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+          
+          <form className="form-inline mr-auto mt-2 mt-lg-0">
+            <input className="form-control mr-sm-2" type="search" placeholder="Search for friends" aria-label="Search" />
             <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
+          <ul className="navbar-nav ">
+          <li className="nav-item active">
+        <Link to='/' className="nav-link" href="#">Hello! <span className="sr-only">(current)</span></Link>
+      </li>
+          </ul>
+          
         </div>
       </nav>
     )

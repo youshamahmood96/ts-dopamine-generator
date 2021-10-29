@@ -21,7 +21,7 @@ const SinglePost: React.FC<{ post: IPostModel,uId:number,token:string }> = (prop
         return () => {
         }
     }, [query])
-    const {firstname, lastname} =  state ? state as any : 'waiting'
+    const {firstname, lastname} =  state ? state as any : ''
     return (
         <div className="jumbotron">
             <h1 className="display-4">{title}</h1>
