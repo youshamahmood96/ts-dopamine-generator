@@ -1,0 +1,1 @@
+## A full stack typescript project to dive deeper into backend engineering.
